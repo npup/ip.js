@@ -30,7 +30,8 @@
 *   s.start();
 *
 */
-var ip = (function () {
+var ip;
+("undefined"==typeof ip) && (ip = (function () {
   var defaultOptions = {
     "duration": 1000
     ,"repeat": false
@@ -189,4 +190,14 @@ var ip = (function () {
     }
   };
 
+})());
+
+(function () {
+  var toExport = {"ip": ip};
+  (function() {
+    var undefinedType = "undefined";
+    if (undefinedType!=typeof module && undefinedType != typeof module.exports && "function" == typeof require) {
+      for (var name in this) {exports[name] = this[name];}
+    }
+  }).call(toExport);
 })();
