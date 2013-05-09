@@ -1,5 +1,12 @@
 /**
 *
+* Name: ip.js
+* Version: 0.9
+* Description: value interpolation utility
+* Author: P. Envall (petter.envall@gmail.com, @npup)
+* Date: 2013-05-09
+*
+*
 * API:
 *   ip.create(from, to[, options]);
 *     from      - (integer) start value
