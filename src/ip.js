@@ -51,6 +51,13 @@ var ip;
     , "end": null // function (/* ts of first start */) {}
   };
 
+  var getTs = (function () {
+    if ("function" == typeof Date.now) {
+      return Date.now;
+    }
+    return function () {return +new Date;}
+  })();
+
   function switchPhase(instance) {
     var tmp = instance.to;
     instance.to = instance.from;
@@ -101,7 +108,7 @@ var ip;
 
   function work(instance) {
     if (checkPaused(instance)) {return;}
-    var now = +new Date
+    var now = getTs()
       , pos = now > instance.end ? 1 : (now-instance._start)/instance.options.duration
       , value = Math.floor(instance.from + (instance.to-instance.from) * instance.options.easing(pos));
     // run any callbacks?
@@ -159,8 +166,9 @@ var ip;
     , "start": function () {
       var instance = this;
       if (instance.running) {return instance;}
-      "number" == typeof instance._firstStart || (instance._firstStart = +new Date);
-      instance._start = +new Date;
+      var ts = getTs();
+      "number" == typeof instance._firstStart || (instance._firstStart = ts);
+      instance._start = ts;
       instance.end = instance._start + instance.options.duration;
       return doStart(instance);
     }
@@ -169,7 +177,7 @@ var ip;
       if (instance.paused) {return instance;}
       instance.paused = true;
       instance.running = false;
-      instance._ts = (+new Date) - instance._start;
+      instance._ts = getTs() - instance._start;
       return instance;
     }
     , "resume": function () {
@@ -177,7 +185,7 @@ var ip;
       if (!instance.paused) {return instance;}
       instance.paused = false;
       instance.running = true;
-      instance._start = (+new Date) - instance._ts;
+      instance._start = getTs() - instance._ts;
       instance.end = instance._start + instance.options.duration;
       delete instance._ts;
       return doStart(instance);
