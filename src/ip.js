@@ -1,40 +1,10 @@
 /**
 *
 * Name: ip.js
-* Version: 0.9.1
+* Version: 0.9.2
 * Description: value interpolation utility
 * Author: P. Envall (petter.envall@gmail.com, @npup)
 * Date: 2013-05-09
-*
-*
-* API:
-*   ip.create(from, to[, options]);
-*     from      - (integer) start value
-*     to        - (integer) end value
-*     options   - (object) options hash:
-*                   duration  - (int, default 1000) duration of interpolation in ms
-*                   repeats   - (boolean, default false | integer) repeat interpolation (true: forever, integer: nr of extra loops)
-*                   roundtrip - (boolean, default false) if interpolation includes returning to initial value
-*                   easing    - (function) interpolation easing strategy
-*                   each      - (function) callback that receives the current interpolation value after each calculation
-*                   update    - (function) callback that receives the current interpolation value after each calculation that results in a new value
-*                   end       - (function) callback for when the interpolation ends
-*
-* Instance API:
-*   i.start()
-*   i.stop()
-*   i.pause()
-*   i.resume()
-*
-* Basic usage:
-*
-*   var s = ip.create(0, 100, {
-*     "duration": 500
-*     , "update": function (value) {
-*       console.log(value);
-*     }
-*   });
-*   s.start();
 *
 */
 var ip;
@@ -44,7 +14,7 @@ var ip;
     ,"repeat": false
     , "roundtrip": false
     , "easing": function (pos) {
-      return (-Math.cos(pos*Math.PI)/2) + 0.5;
+      return -Math.cos(pos*Math.PI)/2 + 0.5;
     }
     , "each": null // function (/* value */) {}
     , "update": null // function (/* value */) {}
@@ -55,7 +25,7 @@ var ip;
     if ("function" == typeof Date.now) {
       return Date.now;
     }
-    return function () {return +new Date;}
+    return function () {return +new Date;};
   })();
 
   function switchPhase(instance) {
@@ -192,10 +162,12 @@ var ip;
     }
     , "stop": function () {
       var instance = this;
-      if (!instance.running) {return;}
-      checkEnd(instance);
-      clearInterval(instance.interval);
-      reset(instance);
+      if (instance.running) {
+        checkEnd(instance);
+        clearInterval(instance.interval);
+        reset(instance);
+      }
+      return instance;
     }
   };
 
@@ -207,12 +179,13 @@ var ip;
 
 })());
 
+var module, require, exports;
 (function () {
   var toExport = {"ip": ip};
   (function() {
-    var undefinedType = "undefined";
-    if (undefinedType!=typeof module && undefinedType != typeof module.exports && "function" == typeof require) {
-      for (var name in this) {exports[name] = this[name];}
+    var ctx = this, undefinedType = "undefined";
+    if (undefinedType!=typeof module && undefinedType!=typeof module.exports && "function"==typeof require) {
+      for (var name in ctx) {exports[name] = ctx[name];}
     }
-  }).call(toExport);
+  }.call(toExport));
 })();

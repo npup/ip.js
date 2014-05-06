@@ -1,4 +1,5 @@
 var buster = require("buster");
+var assert = buster.assert;
 var ip = require("../build/ip.js").ip;
 
 buster.testCase("setup", {

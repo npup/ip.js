@@ -1,8 +1,8 @@
 #!/bin/bash
 SRC = ${LIB} src/ip.js
 
-FILE = ip.js
-FILE_MIN = ip.min.js
+FILE = ip.dev.js
+FILE_MIN = ip.js
 
 DIST_DIR = ./build
 DIST_FILE = ${DIST_DIR}/${FILE}
@@ -11,8 +11,8 @@ DIST_FILE_MIN = ${DIST_DIR}/${FILE_MIN}
 TEST_DIR = ./test
 TEST_FILES = ${TEST_DIR}/ip-test.js
 
-#target: all - clean, build and minify
-all: clean min
+#target: all - clean, build/minify test and lint
+all: clean min test lint
 
 #target: dist - build
 dist: ${SRC}
@@ -24,15 +24,15 @@ min: dist
 	@uglifyjs ${DIST_FILE} > ${DIST_FILE_MIN}
 	@echo 'target:' $@', using uglifyjs'
 
-#target: lint - run jshint tests
+#target: lint - run eslint tests
 lint: dist
-	@jshint --config .jshint-conf ${DIST_FILE}
-	@echo 'target:' $@', using jshint'
+	@eslint --config .eslintrc ${DIST_FILE}
+	@echo 'target:' $@', using eslint'
 
 #target: dist - build from src
 test: dist
 	@node ${TEST_FILES}
-	@echo 'target:' $@', using node and buster.js'	
+	@echo 'target:' $@', using node and buster.js'
 
 #target: clean - remove built files
 clean:
