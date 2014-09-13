@@ -9,7 +9,8 @@ Checkout and build
 	$ git clone git@github.com:npup/ip.js.git
 	$ cd ip.js
 	$ npm install
-	$ make
+	$ npm build
+	$ npm test
 
 Basic usage
 ---
@@ -37,6 +38,11 @@ Instance API:
 	i.resume() // a paused instance can be resumed
 	
 All these instance methods returns a reference to the instance.
+
+If you can't wait and rather get the data points upfront to use them in a lookuptable or something, do:
+
+	i.getAllDataPoints() // returns an array of all data points (one for each ms in the duration)
+	i.getPercentageDataPoints() // returns an array of 101 data points (0-100)
 
 API
 ---

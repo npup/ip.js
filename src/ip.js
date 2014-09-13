@@ -14,8 +14,8 @@ var ip;
     ,"repeat": false
     , "roundtrip": false
     , "easing": function (pos) {
-      return -Math.cos(pos*Math.PI)/2 + 0.5;
-    }
+        return -Math.cos(pos*Math.PI)/2 + .5;
+      }
     , "each": null // function (/* value */) {}
     , "update": null // function (/* value */) {}
     , "end": null // function (/* ts of first start */) {}
@@ -43,9 +43,8 @@ var ip;
   function checkPaused(instance) {
     if (instance.paused) {
       clearInterval(instance.interval);
-      return true;
     }
-    return false;
+    return instance.paused;
   }
 
   function checkUpdate(instance, value) {
@@ -80,7 +79,7 @@ var ip;
     if (checkPaused(instance)) {return;}
     var now = getTs()
       , pos = now > instance.end ? 1 : (now-instance._start)/instance.options.duration
-      , value = Math.floor(instance.from + (instance.to-instance.from) * instance.options.easing(pos));
+      , value = getValue(instance, pos);
     // run any callbacks?
     instance.options.each && instance.options.each(value);
     instance.options.update && checkUpdate(instance, value);
@@ -131,50 +130,69 @@ var ip;
     return instance;
   }
 
+  function getValue(instance, pos) {
+    return Math.floor(instance.from + (instance.to-instance.from) * instance.options.easing(pos));
+  }
+
+  function getValues(instance, start, stop) {
+    var result = [];
+    for (var idx=start; idx<=stop; ++idx) {
+      result.push(getValue(instance, idx/stop));
+    }
+    return result;
+  }
+
   Ip.prototype = {
     "constructor": Ip
     , "start": function () {
-      var instance = this;
-      if (instance.running) {return instance;}
-      var ts = getTs();
-      "number" == typeof instance._firstStart || (instance._firstStart = ts);
-      instance._start = ts;
-      instance.end = instance._start + instance.options.duration;
-      return doStart(instance);
-    }
-    , "pause": function () {
-      var instance = this;
-      if (instance.paused) {return instance;}
-      instance.paused = true;
-      instance.running = false;
-      instance._ts = getTs() - instance._start;
-      return instance;
-    }
-    , "resume": function () {
-      var instance = this;
-      if (!instance.paused) {return instance;}
-      instance.paused = false;
-      instance.running = true;
-      instance._start = getTs() - instance._ts;
-      instance.end = instance._start + instance.options.duration;
-      delete instance._ts;
-      return doStart(instance);
-    }
-    , "stop": function () {
-      var instance = this;
-      if (instance.running) {
-        checkEnd(instance);
-        clearInterval(instance.interval);
-        reset(instance);
+        var instance = this;
+        if (instance.running) {return instance;}
+        var ts = getTs();
+        "number" == typeof instance._firstStart || (instance._firstStart = ts);
+        instance._start = ts;
+        instance.end = instance._start + instance.options.duration;
+        return doStart(instance);
       }
-      return instance;
-    }
+    , "pause": function () {
+        var instance = this;
+        if (instance.paused) {return instance;}
+        instance.paused = true;
+        instance.running = false;
+        instance._ts = getTs() - instance._start;
+        return instance;
+      }
+    , "resume": function () {
+        var instance = this;
+        if (!instance.paused) {return instance;}
+        instance.paused = false;
+        instance.running = true;
+        instance._start = getTs() - instance._ts;
+        instance.end = instance._start + instance.options.duration;
+        delete instance._ts;
+        return doStart(instance);
+      }
+    , "stop": function () {
+        var instance = this;
+        if (instance.running) {
+          checkEnd(instance);
+          clearInterval(instance.interval);
+          reset(instance);
+        }
+        return instance;
+      }
+    , "getAllDataPoints": function () {
+        var instance = this;
+        return getValues(instance, 1, instance.options.duration);
+      }
+    , "getPercentDataPoints": function () {
+        return getValues(this, 0, 100);
+      }
   };
 
   return {
     "create": function (from, to, options) {
-      return new Ip(from, to, options);
-    }
+        return new Ip(from, to, options);
+      }
   };
 
 })());

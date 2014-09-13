@@ -85,7 +85,7 @@
       "no-yoda": 0,
 
       "block-scoped-var": 0,
-      "brace-style": [1, "stroustrup"],
+      "brace-style": [0, "stroustrup"],
       "camelcase": 2,
       "complexity": [0, 11],
       "consistent-return": 2,
@@ -121,6 +121,7 @@
       "valid-jsdoc": 0,
       "valid-typeof": 2,
       "wrap-iife": 0,
-      "wrap-regex": 0
+      "wrap-regex": 0,
+      "yoda": 0
     }
 }
