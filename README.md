@@ -9,14 +9,14 @@ Checkout and build
 	$ git clone git@github.com:npup/ip.js.git
 	$ cd ip.js
 	$ npm install
-	$ npm build
+	$ npm run build
 	$ npm test
 
 Basic usage
 ---
 
 Create instance and start it
-	
+
 	// in 500 ms, go smoothly from 0 to 100 - then log "done"
 	var i = ip.create(0, 100, {
 	  "duration": 500
@@ -36,7 +36,7 @@ Instance API:
 	i.stop() // a running instance can be stopped
 	i.pause() // a running instance can be paused
 	i.resume() // a paused instance can be resumed
-	
+
 All these instance methods returns a reference to the instance.
 
 If you can't wait and rather get the data points upfront to use them in a lookuptable or something, do:

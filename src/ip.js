@@ -1,11 +1,14 @@
 /**
 *
 * Name: ip.js
-* Version: 0.9.2
+* Version: 0.10.1
 * Description: value interpolation utility
 * Author: P. Envall (petter.envall@gmail.com, @npup)
-* Date: 2013-05-09
+* Date: 2013-09-14
 *
+*/
+/* global
+    - module
 */
 var ip;
 ("undefined"==typeof ip) && (ip = (function () {
@@ -197,13 +200,4 @@ var ip;
 
 })());
 
-var module, require, exports;
-(function () {
-  var toExport = {"ip": ip};
-  (function() {
-    var ctx = this, undefinedType = "undefined";
-    if (undefinedType!=typeof module && undefinedType!=typeof module.exports && "function"==typeof require) {
-      for (var name in ctx) {exports[name] = ctx[name];}
-    }
-  }.call(toExport));
-})();
+module.exports = ip;

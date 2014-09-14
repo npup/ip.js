@@ -5,7 +5,7 @@
 var buster = require("buster")
   , assert = buster.assert;
 
-var ip = require("../build/ip.js").ip;
+var ip = require("../build/ip.js");
 
 buster.testCase("setup", {
 	"module exists": function () {
