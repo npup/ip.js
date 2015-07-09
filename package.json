@@ -1,7 +1,7 @@
 {
   "name": "ip-js",
   "description": "number interpolation utility",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "private": true,
   "main": "./build/ip.js",
   "devDependencies": {
@@ -12,6 +12,6 @@
   "scripts": {
     "lint": "npm run build && eslint --config .eslintrc ./build/ip.dev.js || `exit 0`",
     "test": "npm run build && buster-test",
-    "build": "rm -rf ./build/* && cat src/ip.js > ./build/ip.dev.js && uglifyjs ./build/ip.dev.js > ./build/ip.js"
+    "build": "rm -rf ./build/* && cat src/ip.js > ./build/ip.dev.js && uglifyjs ./build/ip.dev.js -cm > ./build/ip.js"
   }
 }
