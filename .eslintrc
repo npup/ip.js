@@ -4,6 +4,9 @@
       , "node": false
       , "amd": false
     }
+    , "globals": {
+        "exports": true
+    }
   , "rules": {
       "no-alert": 2,
       "no-array-constructor": 2, // 2 => new Array() (no args) is mostly uselsess

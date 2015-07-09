@@ -1,6 +1,7 @@
-/* linter, global declarations: */
+var buster = require("buster")
+  , assert = buster.assert;
 
-var assert = buster.assert;
+var ip = require("../build/ip");
 
 buster.testCase("setup", {
 	"module exists": function () {

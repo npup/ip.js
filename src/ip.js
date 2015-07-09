@@ -1,10 +1,10 @@
 /**
 *
 * Name: ip.js
-* Version: 0.10.3
+* Version: 0.10.4
 * Description: value interpolation utility
 * Author: P. Envall (petter.envall@gmail.com, @npup)
-* Date: 2013-09-14
+* Date: 2015-07-09
 *
 */
 /* global
