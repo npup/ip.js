@@ -1,11 +1,6 @@
 /* linter, global declarations: */
-/* global
-  module, require
-*/
-var buster = require("buster")
-  , assert = buster.assert;
 
-var ip = require("../build/ip.js");
+var assert = buster.assert;
 
 buster.testCase("setup", {
 	"module exists": function () {
@@ -44,7 +39,7 @@ buster.testCase("usage", {
             arr.push(value);
           }
         , "end": done(function () {
-            assert.near((+new Date - now), duration, 20, "Effective duration should be around");
+            assert.near((+new Date - now), duration, 50, "Effective duration should be around");
             assert.equals(arr[0], min);
             assert.equals(arr[arr.length-1], max);
           })

@@ -1,7 +1,7 @@
 /**
 *
 * Name: ip.js
-* Version: 0.10.1
+* Version: 0.10.2
 * Description: value interpolation utility
 * Author: P. Envall (petter.envall@gmail.com, @npup)
 * Date: 2013-09-14
@@ -200,4 +200,16 @@ var ip;
 
 })());
 
-module.exports = ip;
+/** For exporting as a commonjs module */
+(function (undefType) {
+  /** This file's export */
+  var exportName = "ip", exportCode = ip;
+
+  /** Don't touch */
+  if (undefType != typeof exports) {
+    if (undefType != typeof module && module.exports) {
+      exports = module.exports = exportCode;
+    }
+    exports[exportName] = exportCode;
+  }
+}("undefined"));
